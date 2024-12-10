@@ -3,59 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Market Toll Receipt Generator</title>
+    <title>Market Toll Receipt</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f5f5f5;
         }
-        .form-section, .receipt-preview {
-            margin: 20px 0;
+        .container {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+        h1 {
+            text-align: center;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
         }
         label {
-            display: block;
-            margin: 10px 0;
+            font-size: 0.9rem;
+            color: #555;
         }
-        .receipt-preview {
+        input {
+            padding: 10px;
+            font-size: 1rem;
             border: 1px solid #ddd;
-            padding: 15px;
-            width: 300px;
-            background-color: #f9f9f9;
-        }
-        .receipt-preview h3 {
-            text-align: center;
-        }
-        .buttons {
-            margin: 20px 0;
+            border-radius: 5px;
         }
         button {
-            margin-right: 10px;
+            padding: 10px;
+            font-size: 1rem;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
         }
     </style>
 </head>
 <body>
-    <h1>Market Toll Receipt Generator</h1>
-    <div class="form-section">
-        <label>Market ID: <input type="text" id="marketId"></label>
-        <label>Receipt No: <input type="text" id="receiptNo"></label>
-        <label>Date Paid: <input type="date" id="datePaid"></label>
-        <label>Bill To: <input type="text" id="customerName"></label>
-        <label>Phone: <input type="text" id="phone"></label>
-        <label>Market Name: <input type="text" id="marketName"></label>
-        <label>Amount Paid (GHS): <input type="number" id="amountPaid"></label>
-        <div class="buttons">
-            <button onclick="generateReceipt()">Generate Receipt</button>
-        </div>
-    </div>
-    <div class="receipt-preview" id="receiptPreview">
-        <h3>Receipt Preview</h3>
-        <p>Market ID: <span id="previewMarketId">-</span></p>
-        <p>Receipt No: <span id="previewReceiptNo">-</span></p>
-        <p>Date Paid: <span id="previewDatePaid">-</span></p>
-        <p>Bill To: <span id="previewCustomerName">-</span></p>
-        <p>Phone: <span id="previewPhone">-</span></p>
-        <p>Market Name: <span id="previewMarketName">-</span></p>
-        <p>Amount Paid: GHS <span id="previewAmountPaid">-</span></p>
+    <div class="container">
+        <h1>Market Toll Receipt</h1>
+        <form id="receiptForm">
+            <label for="marketId">Market ID</label>
+            <input type="text" id="marketId" required>
+            
+            <label for="receiptNo">Receipt No</label>
+            <input type="text" id="receiptNo" required>
+            
+            <label for="datePaid">Date Paid</label>
+            <input type="date" id="datePaid" required>
+            
+            <label for="customerName">Bill To</label>
+            <input type="text" id="customerName" required>
+            
+            <label for="phone">Phone</label>
+            <input type="text" id="phone" required>
+            
+            <label for="marketName">Market Name</label>
+            <input type="text" id="marketName" required>
+            
+            <label for="amountPaid">Amount Paid (GHS)</label>
+            <input type="number" id="amountPaid" required>
+            
+            <button type="submit">Print Receipt</button>
+        </form>
     </div>
     <script src="script.js"></script>
 </body>
