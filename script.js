@@ -1,7 +1,7 @@
 document.getElementById('receiptForm').addEventListener('submit', function (e) {
-    e.preventDefault(); // Prevent the form from reloading the page
+    e.preventDefault(); // Prevent form submission
 
-    // Get the input values
+    // Get input values
     const marketId = document.getElementById('marketId').value;
     const receiptNo = document.getElementById('receiptNo').value;
     const datePaid = document.getElementById('datePaid').value;
@@ -10,8 +10,8 @@ document.getElementById('receiptForm').addEventListener('submit', function (e) {
     const marketName = document.getElementById('marketName').value;
     const amountPaid = document.getElementById('amountPaid').value;
 
-    // Format the receipt text for printing
-    const receiptText = `
+    // Generate receipt content
+    const receiptContent = `
 --------------------------------------
    Accra Metropolitan Assembly
         Market Toll Receipt
@@ -28,12 +28,11 @@ Amount Paid: GHS ${amountPaid}
 --------------------------------------
     `;
 
-    // Create a hidden iframe to print the receipt
-    const printWindow = window.open('', '_blank', 'width=300,height=600');
-    printWindow.document.write(`<pre>${receiptText}</pre>`);
-    printWindow.document.close();
+    // Display the receipt content
+    const receiptPreview = document.getElementById('receiptPreview');
+    receiptPreview.textContent = receiptContent;
+    receiptPreview.style.display = 'block';
 
-    // Automatically print and close the window
-    printWindow.print();
-    printWindow.close();
+    // Trigger print
+    window.print();
 });
