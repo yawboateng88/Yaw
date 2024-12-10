@@ -3,61 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Market Toll Receipt</title>
+    <title>Thermal Printer Demo</title>
     <style>
         body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
             font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
             background-color: #f4f4f9;
         }
+
+        .container {
+            margin-top: 20vh;
+        }
+
         button {
-            padding: 15px 30px;
-            font-size: 16px;
-            color: #fff;
             background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
         }
+
         button:hover {
             background-color: #0056b3;
+        }
+
+        .status {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #333;
         }
     </style>
 </head>
 <body>
-    <button id="printReceipt">Print Receipt</button>
+    <div class="container">
+        <h1>Thermal Printer</h1>
+        <button id="printButton">Print Receipt</button>
+        <p class="status" id="status">Status: Not connected</p>
+    </div>
 
-    <script>
-        async function connectToPrinter() {
-            try {
-                // Request a Bluetooth device
-                const device = await navigator.bluetooth.requestDevice({
-                    acceptAllDevices: true,
-                    optionalServices: [] // Empty to discover all services
-                });
-
-                const server = await device.gatt.connect();
-                const services = await server.getPrimaryServices();
-
-                // Log all available services and characteristics
-                for (const service of services) {
-                    console.log(`Service: ${service.uuid}`);
-                    const characteristics = await service.getCharacteristics();
-                    for (const characteristic of characteristics) {
-                        console.log(`Characteristic: ${characteristic.uuid}`);
-                    }
-                }
-
-                alert("Connected! Check the console for services and characteristics.");
-                // Replace this alert with actual characteristic write commands for your printer
-            } catch (error) {
-                console.error(error);
-                alert("Failed to connect to the printer. Ensure it's powered on and in range.");
-            }
-        }
-
-        document.getElementById('printReceipt').addEventListener('click', connectToPrinter);
+    <script src="script.js"></script>
+</body>
+</html>
