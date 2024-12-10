@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Market Toll Receipt</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+        }
+        button {
+            padding: 15px 30px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <button id="printReceipt">Print Receipt</button>
+
+    <script>
+        async function connectToPrinter() {
+            try {
+                // Request a Bluetooth device supporting serial communication
+                const device = await navigator.bluetooth.requestDevice({
+                    acceptAllDevices: true,
+                    optionalServices: ['custom_service'] // Update with printer-specific service if needed
+                });
+
+                const server = await device.gatt.connect();
+                const service = await server.getPrimaryService('custom_service');
+                const characteristic = await service.getCharacteristic('custom_characteristic');
+
+                const encoder = new TextEncoder('utf-8');
+                const receiptContent = "Market Toll Receipt\nDate: 2024-12-10\nAmount: GHS 10.00\nThank You!\n\n";
+                const encodedContent = encoder.encode(receiptContent);
+
+                await characteristic.writeValue(encodedContent);
+                alert("Receipt printed successfully!");
+            } catch (error) {
+                console.error(error);
+                alert("Failed to connect to printer or print receipt.");
+            }
+        }
+
+        document.getElementById('printReceipt').addEventListener('click', connectToPrinter);
+    </script>
+</body>
+</html>
