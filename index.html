@@ -34,29 +34,30 @@
     <script>
         async function connectToPrinter() {
             try {
-                // Request a Bluetooth device supporting serial communication
+                // Request a Bluetooth device
                 const device = await navigator.bluetooth.requestDevice({
                     acceptAllDevices: true,
-                    optionalServices: ['custom_service'] // Update with printer-specific service if needed
+                    optionalServices: [] // Empty to discover all services
                 });
 
                 const server = await device.gatt.connect();
-                const service = await server.getPrimaryService('custom_service');
-                const characteristic = await service.getCharacteristic('custom_characteristic');
+                const services = await server.getPrimaryServices();
 
-                const encoder = new TextEncoder('utf-8');
-                const receiptContent = "Market Toll Receipt\nDate: 2024-12-10\nAmount: GHS 10.00\nThank You!\n\n";
-                const encodedContent = encoder.encode(receiptContent);
+                // Log all available services and characteristics
+                for (const service of services) {
+                    console.log(`Service: ${service.uuid}`);
+                    const characteristics = await service.getCharacteristics();
+                    for (const characteristic of characteristics) {
+                        console.log(`Characteristic: ${characteristic.uuid}`);
+                    }
+                }
 
-                await characteristic.writeValue(encodedContent);
-                alert("Receipt printed successfully!");
+                alert("Connected! Check the console for services and characteristics.");
+                // Replace this alert with actual characteristic write commands for your printer
             } catch (error) {
                 console.error(error);
-                alert("Failed to connect to printer or print receipt.");
+                alert("Failed to connect to the printer. Ensure it's powered on and in range.");
             }
         }
 
         document.getElementById('printReceipt').addEventListener('click', connectToPrinter);
-    </script>
-</body>
-</html>
